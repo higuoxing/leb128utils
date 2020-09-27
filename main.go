@@ -28,7 +28,10 @@ func printBuffer(buf []byte) {
 	fmt.Printf("]\n")
 }
 
-func printError(e error) {
+func check(e error) {
+	if (e == nil) {
+		return
+	}
 	fmt.Fprintf(os.Stderr, "%v\n", e)
 	os.Exit(1)
 }
@@ -41,19 +44,13 @@ func main() {
 	var buf []byte
 	if IsSigned != nil && *IsSigned {
 		signed, err := strconv.ParseInt(*Input, 10, 64)
-		if err != nil {
-			printError(err)
-		}
-
+		check(err)
 		buf = AppendSleb128(buf, signed)
-		printBuffer(buf)
 	} else {
 		unsigned, err := strconv.ParseUint(*Input, 10, 64)
-		if err != nil {
-			printError(err)
-		}
-
+		check(err)
 		buf = AppendUleb128(buf, unsigned)
-		printBuffer(buf)
 	}
+
+	printBuffer(buf)
 }
