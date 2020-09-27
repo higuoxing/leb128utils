@@ -43,11 +43,11 @@ func main() {
 
 	var buf []byte
 	if IsSigned != nil && *IsSigned {
-		signed, err := strconv.ParseInt(*Input, 10, 64)
+		signed, err := strconv.ParseInt(*Input, 0, 64)
 		check(err)
 		buf = AppendSleb128(buf, signed)
 	} else {
-		unsigned, err := strconv.ParseUint(*Input, 10, 64)
+		unsigned, err := strconv.ParseUint(*Input, 0, 64)
 		check(err)
 		buf = AppendUleb128(buf, unsigned)
 	}
